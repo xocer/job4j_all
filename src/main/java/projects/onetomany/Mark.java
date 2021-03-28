@@ -17,7 +17,7 @@ public class Mark {
     private int id;
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "mark")
     private List<Model> models = new ArrayList<>();
 
     public static Mark of(String name) {
@@ -30,4 +30,11 @@ public class Mark {
         models.add(model);
     }
 
+    @Override
+    public String toString() {
+        return "Mark{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
