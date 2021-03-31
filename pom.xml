@@ -26,6 +26,8 @@
     <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
     <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
     <checkstyle.version>8.41</checkstyle.version>
+    <hsqldb.version>2.5.1</hsqldb.version>
+    <junit.version>4.12</junit.version>
   </properties>
 
   <dependencies>
@@ -85,6 +87,22 @@
       <groupId>com.puppycrawl.tools</groupId>
       <artifactId>checkstyle</artifactId>
       <version>${checkstyle.version}</version>
+    </dependency>
+
+    <!-- HsqlDB -->
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>${hsqldb.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!--JUNIT -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>compile</scope>
     </dependency>
 
   </dependencies>
