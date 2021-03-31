@@ -20,6 +20,9 @@ public class Candidate {
     private String experience;
     private double salary;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private BankOfVacancies bankOfVacancies;
+
     public static Candidate of(String name, String experience, double salary) {
         final var candidate = new Candidate();
         candidate.name = name;
@@ -38,46 +41,31 @@ public class Candidate {
 
             final var ivan = Candidate.of("ivan", "2 years", 3000);
             final var alex = Candidate.of("Alex", "1 years", 2000);
-            final var bob = Candidate.of("Bob", "6 month", 1000);
+
+            final var sales_managers = BankOfVacancies.of("Sales Managers");
+            final var it_managers = BankOfVacancies.of("It Managers");
+
+            final var lentaJob = Vacancy.of("Sales manager in Lenta", "сидеть на кассе");
+            final var okeyJob = Vacancy.of("Sales manager in Okey", "сидеть на кассе");
+
+            final var teslaJob = Vacancy.of("Java Developer", "получать деньги");
+            final var googleJob = Vacancy.of("Senior Java Developer", "получать много денег");
+
+            sales_managers.addVacancy(lentaJob);
+            sales_managers.addVacancy(okeyJob);
+            it_managers.addVacancy(teslaJob);
+            it_managers.addVacancy(googleJob);
+
+            ivan.setBankOfVacancies(sales_managers);
+            alex.setBankOfVacancies(it_managers);
 
             session.save(ivan);
             session.save(alex);
-            session.save(bob);
 
-            // SELECT
-            session.createQuery("from Candidate ").list().forEach(System.out::println);
-
-            session.createQuery("from Candidate where id = : fId")
-                    .setParameter("fId", 1)
-                    .list().forEach(System.out::println);
-
-            session.createQuery("from Candidate where name = : fName")
-                    .setParameter("fName", "Bob")
-                    .list().forEach(System.out::println);
-
-            // UPDATE
             session.createQuery(
-                    "update Candidate set name = : nName, experience = : nExperience, salary = :newSalary where id = :fId")
-                    .setParameter("nName", "Bob2")
-                    .setParameter("nExperience", "5 years")
-                    .setParameter("newSalary", 1500d)
-                    .setParameter("fId", 3)
-                    .executeUpdate();
-            session.createQuery("from Candidate ").list().forEach(System.out::println);
-
-            // DELETE
-            session.createQuery("delete from Candidate where id = :id")
-                    .setParameter("id", 1)
-                    .executeUpdate();
-            session.createQuery("from Candidate ").list().forEach(System.out::println);
-
-            // INSERT
-            session.createQuery("insert into Candidate (name, experience, salary) "
-                    + "select concat(s.name, 'NEW'), concat(s.experience, 'NEW'), s.salary + 400  "
-                    + "from Candidate s where s.id = :fId")
-                    .setParameter("fId", 2)
-                    .executeUpdate();
-            session.createQuery("from Candidate ").list().forEach(System.out::println);
+                    "select distinct can from Candidate can join fetch can.bankOfVacancies bov join fetch bov.vacancies")
+                    .list()
+                    .forEach(System.out::println);
 
             session.getTransaction().commit();
             session.close();

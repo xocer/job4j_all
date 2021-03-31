@@ -21,5 +21,7 @@
         <mapping class="projects.manytomany.Book"/>
         <mapping class="projects.manytomany.Author"/>
         <mapping class="projects.hql.Candidate"/>
+        <mapping class="projects.hql.BankOfVacancies"/>
+        <mapping class="projects.hql.Vacancy"/>
     </session-factory>
 </hibernate-configuration>
