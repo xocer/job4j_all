@@ -20,6 +20,6 @@
         <mapping class="projects.onetomany.Mark"/>
         <mapping class="projects.manytomany.Book"/>
         <mapping class="projects.manytomany.Author"/>
-
+        <mapping class="projects.hql.Candidate"/>
     </session-factory>
 </hibernate-configuration>
