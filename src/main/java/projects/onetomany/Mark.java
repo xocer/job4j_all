@@ -17,7 +17,7 @@ public class Mark {
     private int id;
     private String name;
 
-    @OneToMany(mappedBy = "mark")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "mark", fetch = FetchType.LAZY)
     private List<Model> models = new ArrayList<>();
 
     public static Mark of(String name) {

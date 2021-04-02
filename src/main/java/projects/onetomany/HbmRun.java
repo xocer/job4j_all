@@ -28,7 +28,7 @@ public class HbmRun {
 
             session.save(ford);
 
-            list = session.createQuery("from Mark").list();
+            list = session.createQuery("select distinct m from Mark m join fetch m.models mod join fetch mod.mark").list();
 
             session.getTransaction().commit();
         }
